@@ -1,0 +1,23 @@
+button {
+  width: 100%;
+  height: 48%;
+  color: white;
+  font-size: 4rem;
+  margin-bottom: 1%;
+}
+
+button.like-it {
+  background-color: green;
+}
+
+button.like-it:active {
+  background-color: darkgreen;
+}
+
+button.dislike-it {
+  background-color: red;
+}
+
+button.dislike-it:active {
+  background-color: darkred;
+}
