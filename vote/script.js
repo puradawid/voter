@@ -3,13 +3,26 @@
 var LocalEventProcessor = function () {
   var processor = this;
   this.storage = [];
-  
+
   this.process = function (event) {
     processor.storage.push(event);
   };
 };
 
-var processor = new LocalEventProcessor();
+var ServerEventProcessor = function (host) {
+  function sendOverTheInternet(event, host) {
+    var req = new XMLHttpRequest();
+    req.open('POST', host + '/vote/' + event.eventAction);
+    req.setRequestHeader('content-type', 'application/json; charset=utf-8');
+    req.send(JSON.stringify(event));
+  }
+
+  this.process = function (event) {
+    sendOverTheInternet(event, host);
+  }
+}
+
+var processor = new ServerEventProcessor(''); // use current host
 
 /* Events - Vote event stamped with date
  *          and other context are included */
@@ -34,7 +47,7 @@ var processEvent = function(event) {
 var init = function (document, processor) {
   var likeIt = document.querySelector('button.like-it'),
       dislikeIt = document.querySelector('button.dislike-it');
-  
+
   likeIt.onclick = function (event) { 
     processor.process(new LikeItEvent(event));
   };
