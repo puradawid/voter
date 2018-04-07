@@ -1,15 +1,18 @@
+/* Processor - events created
+ *             are going to be stored */
 var LocalEventProcessor = function () {
   var processor = this;
   this.storage = [];
   
   this.process = function (event) {
     processor.storage.push(event);
-    console.log(processor.storage);
   };
 };
 
 var processor = new LocalEventProcessor();
 
+/* Events - Vote event stamped with date
+ *          and other context are included */
 var VoteEvent = function (context) { 
   this.timestamp = new Date();
 };
@@ -28,19 +31,19 @@ var processEvent = function(event) {
   processor.process(event);
 };
 
-var init = function (document) {
+var init = function (document, processor) {
   var likeIt = document.querySelector('button.like-it'),
       dislikeIt = document.querySelector('button.dislike-it');
   
   likeIt.onclick = function (event) { 
-    processEvent(new LikeItEvent(event));
+    processor.process(new LikeItEvent(event));
   };
 
   dislikeIt.onclick = function (event) { 
-    processEvent(new DislikeItEvent(event));
+    processor.process(new DislikeItEvent(event));
   };
 };
 
 window.onload = function () {
-  init(document); 
+  init(document, processor); 
 };
