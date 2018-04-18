@@ -4,7 +4,7 @@ public class VotingBuilder {
 
     private VoteRepository repository;
 
-    public VotingBuilder withAlzheimerRepository()  {
+    public VotingBuilder withAlzheimerRepository() {
         repository = new AlzheimerRepository();
         return this;
     }
@@ -13,7 +13,6 @@ public class VotingBuilder {
         this.repository = repository;
         return this;
     }
-
 
     public VotingReportFacade votingStatistics() {
         if (repository == null) {

@@ -13,7 +13,9 @@ class Voting implements VotingFacade, VotingReportFacade {
 
     @Override
     public VoteResult vote(Listener listener, Date when, boolean positive) {
-        VoteRepository.SavingResult result = repository.save(new VoteData(new AddVote(when, positive), listener));
+        VoteRepository.SavingResult
+            result =
+            repository.save(new VoteData(new AddVote(when, positive), listener));
         if (result.isCommitted()) {
             return new CommitedVote();
         } else {
@@ -24,7 +26,8 @@ class Voting implements VotingFacade, VotingReportFacade {
     @Override
     public VotingStatistics statistics() {
         List<Vote> events = repository.all();
-        return new Statistics(events.size(), (int) events.stream().map(x -> x.voter()).distinct().count());
+        return new Statistics(events.size(),
+            (int) events.stream().map(Vote::voter).distinct().count());
     }
 
 
