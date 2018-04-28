@@ -1,9 +1,11 @@
 package io.puradawid.voter.io;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.Date;
 
@@ -20,26 +22,34 @@ class Controller {
         this.voting = voting;
     }
 
-    private Listener listener = new SinglePerson();
-
     @RequestMapping(method = RequestMethod.POST, path = "/vote/like")
     void like() {
-        voting.vote(listener, new Date(), true);
+        voting.vote(loadListener(), new Date(), true);
         System.out.println("Like it!");
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/vote/dislike")
     void dislike() {
-        voting.vote(listener, new Date(), false);
+        voting.vote(loadListener(), new Date(), false);
         System.out.println("Dislike it!");
+    }
+
+    private Listener loadListener() {
+        return new SinglePerson(RequestContextHolder.currentRequestAttributes().getSessionId());
     }
 
 }
 
 class SinglePerson implements Listener {
 
+    private final String id;
+
+    public SinglePerson(String id) {
+        this.id = id;
+    }
+
     @Override
     public String id() {
-        return "single person";
+        return id;
     }
 }

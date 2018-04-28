@@ -8,6 +8,10 @@ class PlainPerson implements Listener {
         return new PlainPerson(Integer.toString(nextId++));
     }
 
+    static PlainPerson of(int id) {
+        return new PlainPerson(Integer.toString(id));
+    }
+
     private final String id;
 
     public PlainPerson(String id) {

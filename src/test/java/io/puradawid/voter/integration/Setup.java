@@ -3,6 +3,8 @@ package io.puradawid.voter.integration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.util.Random;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import io.puradawid.voter.io.VoterApplication;
@@ -19,10 +21,11 @@ public class Setup {
         context.close();
     }
 
-    public void withRunningApplication(Consumer<ConfigurableApplicationContext> consumerContext, int port) {
+    public void withRunningApplication(BiConsumer<ConfigurableApplicationContext, Integer> consumerContext) {
+        int port = new Random().nextInt(8999) + 1000;
         openApplication("--server.port=" + port);
         try {
-            consumerContext.accept(context);
+            consumerContext.accept(context, port);
         } finally {
             closeApplication();
         }

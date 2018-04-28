@@ -3,12 +3,16 @@ package io.puradawid.voter.integration;
 import com.dyngr.Poller;
 import com.dyngr.PollerBuilder;
 import com.dyngr.core.AttemptResults;
+import com.dyngr.core.StopStrategies;
 import com.dyngr.core.WaitStrategies;
 
 import org.junit.Test;
+import org.springframework.context.ConfigurableApplicationContext;
 
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import io.puradawid.voter.VotingReportFacade;
 
@@ -21,36 +25,38 @@ public class VotingTests {
 
     @Test
     public void testVoting() throws InterruptedException {
-        int port = new Random().nextInt(8999) + 1000;
-        testing.withRunningApplication(ctx -> {
-            try (AudiencePerson person = new AudiencePerson("localhost", port)) {
-                person.like();
-                VotingReportFacade report = ctx.getBean("ReportFacade", VotingReportFacade.class);
-                assertThat(getTotalVotes(report), is(1));
-            }
-        }, port);
+        testing.withRunningApplication((ctx, port) -> {
+            withNewPerson(liker ->
+                withNewPerson(hater -> {
+                    liker.like();
+                    hater.dislike();
+                    liker.like();
+                    hater.dislike();
+                    assertThat(totalVotes(ctx, 4), is(4));
+                    assertThat(numberOfPeople(ctx, 2), is(2));
+                }, port), port);
+        });
     }
 
-    @Test
-    public void testDislikeVoting() throws InterruptedException, ExecutionException {
-        int port = new Random().nextInt(8999) + 1000;
-        testing.withRunningApplication(ctx -> {
-            try (AudiencePerson person = new AudiencePerson("localhost", port)) {
-                person.dislike();
-                VotingReportFacade report = ctx.getBean("ReportFacade", VotingReportFacade.class);
-                assertThat(getTotalVotes(report), is(1));
-            }
-        }, port);
+    private int totalVotes(ConfigurableApplicationContext ctx, int expected) {
+        VotingReportFacade report = ctx.getBean("ReportFacade", VotingReportFacade.class);
+        return pollManyTimesFor(() -> report.statistics().totalVotes(), expected);
     }
 
-    private int getTotalVotes(VotingReportFacade report) {
-        Poller<Integer> poller = PollerBuilder.<Integer>newBuilder()
+    private int numberOfPeople(ConfigurableApplicationContext ctx, int expected) {
+        VotingReportFacade report = ctx.getBean("ReportFacade", VotingReportFacade.class);
+        return pollManyTimesFor(() -> report.statistics().numberOfPeople(), expected);
+    }
+
+    private <T> T pollManyTimesFor(Supplier<T> supplier, T expected) {
+        Poller<T> poller = PollerBuilder.<T>newBuilder()
             .withWaitStrategy(WaitStrategies.fibonacciWait())
+            .withStopStrategy(StopStrategies.stopAfterDelay(2, TimeUnit.SECONDS))
             .polling(
                 () -> {
-                    int totalVotes = report.statistics().totalVotes();
-                    if (totalVotes > 0) {
-                        return AttemptResults.finishWith(totalVotes);
+                    T value = supplier.get();
+                    if (value.equals(expected)) {
+                        return AttemptResults.finishWith(value);
                     } else {
                         return AttemptResults.justContinue();
                     }
@@ -58,8 +64,16 @@ public class VotingTests {
             ).build();
         try {
             return poller.start().get();
-        } catch (InterruptedException | ExecutionException ex) {
-            return 0;
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        } catch (ExecutionException ex) {
+            return supplier.get();
+        }
+    }
+
+    private void withNewPerson(Consumer<AudiencePerson> consumer, int port) {
+        try (AudiencePerson person = new AudiencePerson("localhost", port)) {
+            consumer.accept(person);
         }
     }
 }

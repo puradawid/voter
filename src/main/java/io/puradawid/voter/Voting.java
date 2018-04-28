@@ -27,7 +27,7 @@ class Voting implements VotingFacade, VotingReportFacade {
     public VotingStatistics statistics() {
         List<Vote> events = repository.all();
         return new Statistics(events.size(),
-            (int) events.stream().map(Vote::voter).distinct().count());
+            (int) events.stream().map(x -> x.voter().id()).distinct().count());
     }
 
 

@@ -85,6 +85,24 @@ public class VotingTest {
         assertThat(reportFacade.statistics().totalVotes(), is(2));
     }
 
+    @Test
+    public void testReadingStatsWithOneLikeAndDislikeFromDifferentPeople() {
+        // Given there is just one listener on presentation
+        VotingBuilder builder = new VotingBuilder().withAlzheimerRepository();
+        VotingReportFacade reportFacade = builder.votingStatistics();
+        VotingFacade voting = builder.votingFacade();
+
+        // And he/she just posted two likes
+        voting.vote(PlainPerson.of(1), new Date(), true);
+        voting.vote(PlainPerson.of(2), new Date(), false);
+        voting.vote(PlainPerson.of(1), new Date(), true);
+        voting.vote(PlainPerson.of(2), new Date(), false);
+
+        // Then statistics should be 2 vote total and one person attending
+        assertThat(reportFacade.statistics().numberOfPeople(), is(2));
+        assertThat(reportFacade.statistics().totalVotes(), is(4));
+    }
+
     static class RecordingRepository implements VoteRepository {
 
         private Vote vote;
