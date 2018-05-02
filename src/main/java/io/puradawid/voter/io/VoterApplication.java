@@ -11,18 +11,6 @@ import io.puradawid.voter.VotingReportFacade;
 @SpringBootApplication
 public class VoterApplication {
 
-    VotingBuilder builder = new VotingBuilder().withAlzheimerRepository();
-
-    @Bean(name = "VotingFacade")
-    public VotingFacade loadVotingFacade() {
-        return builder.votingFacade();
-    }
-
-    @Bean(name = "ReportFacade")
-    public VotingReportFacade loadReportFacade() {
-        return builder.votingStatistics();
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(VoterApplication.class, args);
     }

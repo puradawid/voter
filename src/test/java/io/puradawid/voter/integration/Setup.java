@@ -13,7 +13,7 @@ public class Setup {
 
     ConfigurableApplicationContext context;
 
-    private void openApplication(String args) {
+    private void openApplication(String... args) {
         context = SpringApplication.run(VoterApplication.class, args);
     }
 
@@ -23,7 +23,7 @@ public class Setup {
 
     public void withRunningApplication(BiConsumer<ConfigurableApplicationContext, Integer> consumerContext) {
         int port = new Random().nextInt(8999) + 1000;
-        openApplication("--server.port=" + port);
+        openApplication("--spring.profiles.active=test", "--server.port=" + port);
         try {
             consumerContext.accept(context, port);
         } finally {

@@ -5,9 +5,17 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-class AlzheimerRepository implements VoteRepository {
+public class AlzheimerRepository implements VoteRepository {
 
-    private List<Vote> votes = new LinkedList<>();
+    private final List<Vote> votes;
+
+    public AlzheimerRepository(List<Vote> votes) {
+        this.votes = votes;
+    }
+
+    public AlzheimerRepository() {
+        this.votes = new LinkedList<>();
+    }
 
     @Override
     public SavingResult save(Vote vote) {
@@ -20,7 +28,7 @@ class AlzheimerRepository implements VoteRepository {
         return new ArrayList<>(votes);
     }
 
-    static class Result implements VoteRepository.SavingResult {
+    static class Result implements SavingResult {
 
         @Override
         public boolean isCommitted() {
