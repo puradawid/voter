@@ -5,13 +5,9 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AlzheimerRepository implements VoteRepository {
+class AlzheimerRepository implements VoteRepository {
 
     private final List<Vote> votes;
-
-    public AlzheimerRepository(List<Vote> votes) {
-        this.votes = votes;
-    }
 
     public AlzheimerRepository() {
         this.votes = new LinkedList<>();
@@ -36,39 +32,4 @@ public class AlzheimerRepository implements VoteRepository {
         }
     }
 
-    static class AlzhaimerVote implements Vote {
-
-        private final Date arrived;
-        private final Date declared;
-        private final Listener voter;
-        private final boolean positive;
-
-        AlzhaimerVote(Date arrived, Date declared, Listener voter, boolean positive) {
-            this.arrived = arrived;
-            this.declared = declared;
-            this.voter = voter;
-            this.positive = positive;
-        }
-
-        @Override
-        public Date arrived() {
-            return arrived;
-        }
-
-        @Override
-        public Date declared() {
-            return declared;
-        }
-
-        @Override
-        public Listener voter() {
-            return voter;
-        }
-
-        @Override
-        public boolean positive() {
-            return positive;
-
-        }
-    }
 }

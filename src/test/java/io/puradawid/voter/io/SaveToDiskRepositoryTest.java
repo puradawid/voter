@@ -32,7 +32,7 @@ public class SaveToDiskRepositoryTest {
 
     @Test
     public void testSaveAndLoadMethod() {
-        int votesAmount = 50;
+        int votesAmount = 2;
         VoteRepository repo = new SaveToDiskRepository("testing");
         for (int i = 0; i < votesAmount; i++) {
             repo.save(new VoteDto(new Date(), new Date(), "1", true));
@@ -42,7 +42,7 @@ public class SaveToDiskRepositoryTest {
 
     @Test
     public void testSaveAndLoadMethodWithDecorator() {
-        int votesAmount = 50;
+        int votesAmount = 2;
         VoteRepository repo = new InMemoryDecoratorRepository(new SaveToDiskRepository("testing"));
         for (int i = 0; i < votesAmount; i++) {
             repo.save(new VoteDto(new Date(), new Date(), "1", true));
