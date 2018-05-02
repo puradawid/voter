@@ -7,7 +7,7 @@ import io.puradawid.voter.dto.VoteDto;
 
 class Voting implements VotingFacade, VotingReportFacade {
 
-    private VoteRepository repository;
+    private final VoteRepository repository;
 
     public Voting(VoteRepository repository) {
         this.repository = repository;
@@ -34,7 +34,8 @@ class Voting implements VotingFacade, VotingReportFacade {
 
 
     private static class VoteData extends VoteDto {
-        VoteData(AddVote event, Listener voter) {
+
+        private VoteData(AddVote event, Listener voter) {
             super(new Date(), event.getClientSideRegisteredTime(), voter.id(), event.isPositive());
         }
     }
