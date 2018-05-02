@@ -16,6 +16,7 @@ class SecuritySettings extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET, "/").permitAll()
             .antMatchers(HttpMethod.GET, "/**.js").permitAll()
             .antMatchers(HttpMethod.GET, "/**.css").permitAll()
+            .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
             .antMatchers(HttpMethod.POST, "/vote/like", "/vote/dislike").permitAll()
             .anyRequest().authenticated()
             .and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);

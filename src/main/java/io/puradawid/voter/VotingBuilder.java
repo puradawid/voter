@@ -3,6 +3,7 @@ package io.puradawid.voter;
 public class VotingBuilder {
 
     private VoteRepository repository;
+    private Voting build;
 
     public VotingBuilder withAlzheimerRepository() {
         repository = new AlzheimerRepository();
@@ -15,19 +16,23 @@ public class VotingBuilder {
     }
 
     public VotingReportFacade votingStatistics() {
-        if (repository == null) {
-            throw new IllegalStateException("Provide repository");
-        }
-
-        return new Voting(repository);
+        return build();
     }
 
     public VotingFacade votingFacade() {
+        return build();
+    }
+
+    private Voting build() {
         if (repository == null) {
             throw new IllegalStateException("Provide repository");
         }
 
-        return new Voting(repository);
+        if (build == null) {
+            build = new Voting(repository);
+        }
+
+        return build;
     }
 
 }
