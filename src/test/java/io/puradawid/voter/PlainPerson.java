@@ -1,6 +1,8 @@
 package io.puradawid.voter;
 
-class PlainPerson implements Listener {
+import io.puradawid.voter.dto.ListenerDto;
+
+class PlainPerson extends ListenerDto {
 
     private static int nextId = 0;
 
@@ -12,14 +14,7 @@ class PlainPerson implements Listener {
         return new PlainPerson(Integer.toString(id));
     }
 
-    private final String id;
-
     public PlainPerson(String id) {
-        this.id = id;
-    }
-
-    @Override
-    public String id() {
-        return id;
+        super(id);
     }
 }

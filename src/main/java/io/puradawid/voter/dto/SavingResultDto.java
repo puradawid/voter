@@ -1,4 +1,4 @@
-package io.puradawid.voter.io.dto;
+package io.puradawid.voter.dto;
 
 import io.puradawid.voter.VoteRepository;
 

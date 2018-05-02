@@ -12,8 +12,8 @@ import java.util.List;
 
 import io.puradawid.voter.Vote;
 import io.puradawid.voter.VoteRepository;
-import io.puradawid.voter.io.dto.VoteDto;
-import io.puradawid.voter.io.dto.SavingResultDto;
+import io.puradawid.voter.dto.VoteDto;
+import io.puradawid.voter.dto.SavingResultDto;
 
 class SaveToDiskRepository implements VoteRepository {
 

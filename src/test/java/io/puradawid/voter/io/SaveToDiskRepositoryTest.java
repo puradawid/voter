@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.Date;
 
 import io.puradawid.voter.VoteRepository;
-import io.puradawid.voter.io.dto.VoteDto;
+import io.puradawid.voter.dto.VoteDto;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;

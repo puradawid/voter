@@ -3,6 +3,8 @@ package io.puradawid.voter;
 import java.util.Date;
 import java.util.List;
 
+import io.puradawid.voter.dto.VoteDto;
+
 class Voting implements VotingFacade, VotingReportFacade {
 
     private VoteRepository repository;
@@ -31,39 +33,9 @@ class Voting implements VotingFacade, VotingReportFacade {
     }
 
 
-    static class VoteData implements Vote {
-
-        private final Date arrived;
-        private final Date declared;
-        private final Listener voter;
-        private final boolean positive;
-
+    private static class VoteData extends VoteDto {
         VoteData(AddVote event, Listener voter) {
-            this.arrived = new Date();
-            this.declared = event.getClientSideRegisteredTime();
-            this.voter = voter;
-            this.positive = event.isPositive();
-        }
-
-        @Override
-        public Date arrived() {
-            return arrived;
-        }
-
-        @Override
-        public Date declared() {
-            return declared;
-        }
-
-        @Override
-        public Listener voter() {
-            return voter;
-        }
-
-        @Override
-        public boolean positive() {
-            return positive;
-
+            super(new Date(), event.getClientSideRegisteredTime(), voter.id(), event.isPositive());
         }
     }
 

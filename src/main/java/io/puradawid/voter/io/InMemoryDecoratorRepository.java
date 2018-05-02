@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import io.puradawid.voter.Vote;
 import io.puradawid.voter.VoteRepository;
-import io.puradawid.voter.io.dto.SavingResultDto;
+import io.puradawid.voter.dto.SavingResultDto;
 
 class InMemoryDecoratorRepository implements VoteRepository {
 

@@ -1,12 +1,12 @@
-package io.puradawid.voter.io.dto;
+package io.puradawid.voter.dto;
 
 import io.puradawid.voter.Listener;
 
 public class ListenerDto implements Listener {
 
-    private String id;
+    private final String id;
 
-    ListenerDto(String id) {
+    public ListenerDto(String id) {
         this.id = id;
     }
 
