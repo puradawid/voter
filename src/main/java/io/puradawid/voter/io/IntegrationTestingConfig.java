@@ -10,17 +10,17 @@ import io.puradawid.voter.VotingReportFacade;
 
 @Configuration
 @Profile("test")
-public class IntegrationTestingConfig {
+class IntegrationTestingConfig {
     VotingBuilder builder = new VotingBuilder()
         .withAlzheimerRepository();
 
     @Bean(name = "VotingFacade")
-    public VotingFacade loadVotingFacade() {
+    VotingFacade loadVotingFacade() {
         return builder.votingFacade();
     }
 
     @Bean(name = "ReportFacade")
-    public VotingReportFacade loadReportFacade() {
+    VotingReportFacade loadReportFacade() {
         return builder.votingStatistics();
     }
 

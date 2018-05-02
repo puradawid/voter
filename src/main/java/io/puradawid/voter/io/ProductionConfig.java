@@ -16,12 +16,12 @@ class ProductionConfig {
         .withCustomRepository(new InMemoryDecoratorRepository(new SaveToDiskRepository("production")));
 
     @Bean(name = "VotingFacade")
-    public VotingFacade loadVotingFacade() {
+    VotingFacade loadVotingFacade() {
         return builder.votingFacade();
     }
 
     @Bean(name = "ReportFacade")
-    public VotingReportFacade loadReportFacade() {
+    VotingReportFacade loadReportFacade() {
         return builder.votingStatistics();
     }
 
