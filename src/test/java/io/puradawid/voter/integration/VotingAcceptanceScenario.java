@@ -19,7 +19,7 @@ import io.puradawid.voter.VotingReportFacade;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class VotingTests {
+public class VotingAcceptanceScenario {
 
     Setup testing = new Setup();
 

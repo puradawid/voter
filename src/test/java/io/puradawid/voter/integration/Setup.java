@@ -5,11 +5,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.Random;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 import io.puradawid.voter.io.VoterApplication;
 
-public class Setup {
+class Setup {
 
     ConfigurableApplicationContext context;
 
@@ -21,7 +20,7 @@ public class Setup {
         context.close();
     }
 
-    public void withRunningApplication(BiConsumer<ConfigurableApplicationContext, Integer> consumerContext) {
+    void withRunningApplication(BiConsumer<ConfigurableApplicationContext, Integer> consumerContext) {
         int port = new Random().nextInt(8999) + 1000;
         openApplication("--spring.profiles.active=test", "--server.port=" + port);
         try {

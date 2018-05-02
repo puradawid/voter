@@ -4,10 +4,10 @@ import org.openqa.selenium.WebDriver;
 
 public class MainPage {
 
-    private DislikeAction dislike;
-    private LikeAction like;
+    private final DislikeAction dislike;
+    private final LikeAction like;
 
-    public MainPage(WebDriver driver) {
+    MainPage(WebDriver driver) {
         dislike = new DislikeAction(driver);
         like = new LikeAction(driver);
     }

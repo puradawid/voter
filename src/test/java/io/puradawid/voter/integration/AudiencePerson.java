@@ -4,7 +4,7 @@ import io.puradawid.voter.integration.webgui.VoterApplicationWebInterface;
 
 class AudiencePerson implements AutoCloseable {
 
-    private VoterApplicationWebInterface webInterface;
+    private final VoterApplicationWebInterface webInterface;
 
     AudiencePerson(String host, int port) {
         webInterface = new VoterApplicationWebInterface(port, host);
