@@ -9,8 +9,8 @@ import io.puradawid.voter.VotingFacade;
 import io.puradawid.voter.VotingReportFacade;
 
 @Configuration
-@Profile("production")
-class ProductionConfig {
+@Profile({"production", "dev"})
+class StoreInDiskConfiguration {
 
     VotingBuilder builder = new VotingBuilder()
         .withCustomRepository(new InMemoryDecoratorRepository(new SaveToDiskRepository("production")));
